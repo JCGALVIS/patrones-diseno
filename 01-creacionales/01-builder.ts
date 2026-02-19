@@ -13,75 +13,66 @@
  * https://refactoring.guru/es/design-patterns/builder
  */
 
-import { COLORS } from '../helpers/colors.ts';
+import { COLORS } from "../helpers/colors.ts";
 
 class Computer {
-  public cpu: string = 'cpu - not defined';
-  public ram: string = 'ram - not defined';
-  public storage: string = 'storage - not defined';
-  public gpu?: string;
+    public cpu: string = 'cpu - not defined';
+    public ram: string = 'ram - not defined'
+    public storage: string = 'storage - not defined';
+    public gpu?: string;
 
-  displayConfiguration() {
-    console.log(`Configuración de la computadora
-      CPU: ${this.cpu}  
-      RAM: ${this.ram}  
-      Almacenamiento: ${this.storage}  
-      GPU: ${this.gpu ?? 'No tiene GPU'}  
-      `);
-  }
+    displayConfiguration() {
+        console.log(`Computer Configuration:
+            CPU: ${this.cpu}
+            RAM: ${this.ram}
+            Storage: ${this.storage}
+            GPU: ${this.gpu ?? 'gpu - not defined'}
+        `);
+    }
 }
 
 class ComputerBuilder {
-  private computer: Computer;
+    private computer: Computer;
 
-  constructor() {
-    this.computer = new Computer();
-  }
+    constructor() {
+        this.computer = new Computer();
+    }
+    
+    setCPU(cpu: string): ComputerBuilder {
+        this.computer.cpu = cpu;
+        return this;
+    }
 
-  setCPU(cpu: string): ComputerBuilder {
-    this.computer.cpu = cpu;
-    return this;
-  }
+    setRAM(ram: string): ComputerBuilder {
+        this.computer.ram = ram;
+        return this;
+    }
+    
+    setStorage(storage: string): ComputerBuilder {
+        this.computer.storage = storage;
+        return this;
+    }
 
-  setRAM(ram: string): ComputerBuilder {
-    this.computer.ram = ram;
-    return this;
-  }
-
-  setStorage(storage: string): ComputerBuilder {
-    this.computer.storage = storage;
-    return this;
-  }
-
-  setGPU(gpu: string): ComputerBuilder {
-    this.computer.gpu = gpu;
-    return this;
-  }
-
-  build() {
-    return this.computer;
-  }
+    setGPU(gpu: string): ComputerBuilder {
+        this.computer.gpu = gpu;
+        return this;
+    }
+    
+    build(): Computer {
+        return this.computer;
+    }
 }
 
 function main() {
-  const basicComputer: Computer = new ComputerBuilder()
-    .setCPU('Intel Core 2 Dúo')
-    .setRAM('4GB')
-    .setStorage('256GB')
-    .build();
+    const basicComputer: Computer = new ComputerBuilder()
+        .setCPU('Intel Core i7')
+        .setRAM('16GB')
+        .setStorage('512GB SSD')
+        .setGPU('NVIDIA RTX 3060')
+        .build();
 
-  console.log('%cComputadora básica:', COLORS.blue);
-  basicComputer.displayConfiguration();
-
-  const gamingComputer = new ComputerBuilder()
-    .setCPU('Intel i9')
-    .setRAM('64GB')
-    .setStorage('1TB M2')
-    .setGPU('Nvidia RTX 5090')
-    .build();
-
-  console.log('%c\nComputadora gamer\n', COLORS.cyan);
-  gamingComputer.displayConfiguration();
+    console.log('%cBasic Computer Configuration:\n', COLORS.blue);
+    basicComputer.displayConfiguration();
 }
 
 main();
